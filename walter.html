@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walter White - Master Chemistry Tutor</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #6bbf59;
+            --dark-green: #4a9641;
+            --light-green: #8dd574;
+            --accent-blue: #2c5aa0;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --white: #ffffff;
+            --light-gray: #f7fafc;
+            --medium-gray: #e2e8f0;
+            --dark-gray: #4a5568;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo .w {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            padding: 0.3rem 0.5rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(107, 191, 89, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(107, 191, 89, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(107, 191, 89, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--light-gray) 50%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23e2e8f0" opacity="0.3"/><circle cx="75" cy="75" r="1" fill="%236bbf59" opacity="0.2"/><circle cx="50" cy="10" r="0.5" fill="%23e2e8f0" opacity="0.4"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeUp 1s ease forwards 0.5s;
+        }
+
+        .hero-title {
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-dark), var(--primary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-image {
+            text-align: center;
+            opacity: 0;
+            animation: slideIn 1s ease forwards 0.8s;
+            position: relative;
+            /* Ensure the container itself is square */
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        .hero-image img {
+            width: 400px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-green), var(--dark-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-hover);
+            border: 8px solid white;
+            position: relative; /* Ensure stacking context */
+            z-index: 2;         /* Above the ring */
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary-green);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 2s infinite;
+            z-index: 1; /* Behind the image */
+            pointer-events: none;
+        }
+
+        .hero-btn {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(107, 191, 89, 0.3);
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(107, 191, 89, 0.4);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--medium-gray);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--light-gray);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .qualifications {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .qualifications h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qual-item {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem 0;
+        }
+
+        .qual-item i {
+            color: var(--primary-green);
+            width: 20px;
+        }
+
+        /* Classes Section */
+        .classes {
+            background: var(--white);
+        }
+
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .class-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--medium-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .class-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+        }
+
+        .class-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .class-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 8px 20px rgba(107, 191, 89, 0.3);
+        }
+
+        .class-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .class-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .class-features {
+            list-style: none;
+            text-align: left;
+            margin-top: 1.5rem;
+        }
+
+        .class-features li {
+            padding: 0.5rem 0;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .class-features li i {
+            color: var(--primary-green);
+            width: 16px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: var(--light-gray);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 3rem;
+            color: var(--primary-green);
+            background: var(--white);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin: 2rem 0 1.5rem 0;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .testimonial-author i {
+            color: var(--primary-green);
+        }
+
+        /* Book Section */
+        .book-section {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>') repeat;
+            pointer-events: none;
+        }
+
+        .book-section .section-title {
+            color: white;
+        }
+
+        .book-content {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .book-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .book-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            margin-top: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            background: white;
+        }
+
+        .book-btn {
+            background: white;
+            color: var(--primary-green);
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-green);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #cbd5e0;
+            text-decoration: none;
+            line-height: 1.8;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-green);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--light-green);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #4a5568;
+            text-align: center;
+            color: #a0aec0;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(1.05);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .classes-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 4rem 1rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="w">W</span>alter White
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#classes">Classes</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#book" class="cta-btn">Book a Demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Master Chemistry with Walter White</h1>
+                <p class="hero-subtitle">Transform your understanding of chemistry with precise, results-driven teaching
+                    methods that make complex concepts crystal clear.</p>
+                <a href="#book" class="hero-btn">
+                    <i class="fas fa-rocket"></i>
+                    Book a Demo Class
+                </a>
+            </div>
+            <div class="hero-image">
+                <img src="hero.png" alt="Walter White Chemistry Tutor">
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item fade-in">
+                <span class="stat-number">20+</span>
+                <span class="stat-label">Years Teaching</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number">500+</span>
+                <span class="stat-label">Students Helped</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number">95%</span>
+                <span class="stat-label">Success Rate</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Satisfaction</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">About Walter</h2>
+            <p class="section-subtitle fade-in">Excellence in chemistry education through precision and dedication</p>
+            <div class="about-content">
+                <div class="fade-in">
+                    <p class="about-text">
+                        With over 20 years of teaching chemistry at J.P. Wynne High School, I specialize in helping
+                        students truly understand the science behind the formulas. My methods are precise,
+                        results-driven, and—let's just say—memorable.
+                    </p>
+                    <p class="about-text">
+                        I believe that chemistry is not just about memorizing reactions, but understanding the
+                        fundamental principles that govern our world. Every lesson is designed to build confidence and
+                        competence.
+                    </p>
+                </div>
+                <div class="qualifications fade-in">
+                    <h3><i class="fas fa-graduation-cap"></i> Qualifications & Achievements</h3>
+                    <div class="qual-item">
+                        <i class="fas fa-medal"></i>
+                        <span>M.S. in Chemistry, California Institute of Technology</span>
+                    </div>
+                    <div class="qual-item">
+                        <i class="fas fa-flask"></i>
+                        <span>Former Senior Lab Supervisor</span>
+                    </div>
+                    <div class="qual-item">
+                        <i class="fas fa-trophy"></i>
+                        <span>Award-winning Educator (5 consecutive years)</span>
+                    </div>
+                    <div class="qual-item">
+                        <i class="fas fa-certificate"></i>
+                        <span>Advanced Organic Chemistry Certification</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes Section -->
+    <section class="section classes" id="classes">
+        <div class="container">
+            <h2 class="section-title fade-in">Classes Offered</h2>
+            <p class="section-subtitle fade-in">Comprehensive chemistry education tailored to your learning needs</p>
+            <div class="classes-grid">
+                <div class="class-card fade-in">
+                    <div class="class-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3 class="class-title">General Chemistry</h3>
+                    <p class="class-description">Foundation course covering essential chemistry principles for high
+                        school and college students.</p>
+                    <ul class="class-features">
+                        <li><i class="fas fa-check"></i> Atomic structure & bonding</li>
+                        <li><i class="fas fa-check"></i> Chemical equations & stoichiometry</li>
+                        <li><i class="fas fa-check"></i> Gas laws & thermodynamics</li>
+                        <li><i class="fas fa-check"></i> Solutions & acid-base chemistry</li>
+                    </ul>
+                </div>
+                <div class="class-card fade-in">
+                    <div class="class-icon">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h3 class="class-title">Organic Chemistry Mastery</h3>
+                    <p class="class-description">Advanced organic chemistry concepts with practical applications and
+                        problem-solving techniques.</p>
+                    <ul class="class-features">
+                        <li><i class="fas fa-check"></i> Functional groups & nomenclature</li>
+                        <li><i class="fas fa-check"></i> Reaction mechanisms</li>
+                        <li><i class="fas fa-check"></i> Stereochemistry concepts</li>
+                        <li><i class="fas fa-check"></i> Synthesis strategies</li>
+                    </ul>
+                </div>
+                <div class="class-card fade-in">
+                    <div class="class-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="class-title">Lab Safety & Techniques</h3>
+                    <p class="class-description">Essential laboratory skills and safety protocols for safe and effective
+                        chemistry practice.</p>
+                    <ul class="class-features">
+                        <li><i class="fas fa-check"></i> Laboratory safety protocols</li>
+                        <li><i class="fas fa-check"></i> Equipment handling</li>
+                        <li><i class="fas fa-check"></i> Measurement techniques</li>
+                        <li><i class="fas fa-check"></i> Data analysis & reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title fade-in">What Students Say</h2>
+            <p class="section-subtitle fade-in">Real feedback from students who've transformed their chemistry
+                understanding</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="quote-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">Mr. White changed the way I see chemistry. His teaching style is intense
+                        but incredibly effective. I went from struggling to excelling in just a few months.</p>
+                    <p class="testimonial-author">
+                        <i class="fas fa-user-graduate"></i>
+                        Jesse P., Former Student
+                    </p>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="quote-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">Walter helped my son improve from failing to achieving a 95% grade in
+                        just 6 weeks! His methods are precise and results-oriented.</p>
+                    <p class="testimonial-author">
+                        <i class="fas fa-user"></i>
+                        Skyler W., Parent
+                    </p>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="quote-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">He makes you respect chemistry and understand the importance of
+                        precision. An unforgettable teacher who delivers real results.</p>
+                    <p class="testimonial-author">
+                        <i class="fas fa-badge-check"></i>
+                        H. Schrader, Colleague
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Section -->
+    <section class="section book-section" id="book">
+        <div class="container">
+            <h2 class="section-title fade-in">Book a Lesson</h2>
+            <div class="book-content fade-in">
+                <p class="book-subtitle">Let's cook... some knowledge.</p>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                    <i class="fas fa-calendar-alt"></i>
+                    Book a free 30-minute consultation to discuss your chemistry goals
+                </p>
+
+                <form class="book-form">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Full Name:</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email Address:</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Phone Number:</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label for="level"><i class="fas fa-graduation-cap"></i> Chemistry Level:</label>
+                        <input type="text" id="level" name="level" placeholder="e.g., High School, College, Advanced">
+                    </div>
+                    <div class="form-group">
+                        <label for="time"><i class="fas fa-clock"></i> Preferred Time:</label>
+                        <input type="text" id="time" name="time" placeholder="e.g., Weekday evenings, Weekend mornings">
+                    </div>
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment"></i> Additional Notes:</label>
+                        <textarea id="message" name="message" rows="4"
+                            placeholder="Tell me about your chemistry goals and any specific areas you'd like to focus on..."></textarea>
+                    </div>
+                    <button type="submit" class="book-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Schedule Consultation
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-flask"></i> Walter White Chemistry</h3>
+                <p>Transforming chemistry education through precision, dedication, and proven results. Master the
+                    science that shapes our world.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3><i class="fas fa-graduation-cap"></i> Classes</h3>
+                <ul class="footer-links">
+                    <li><a href="#classes"><i class="fas fa-atom"></i> General Chemistry</a></li>
+                    <li><a href="#classes"><i class="fas fa-microscope"></i> Organic Chemistry</a></li>
+                    <li><a href="#classes"><i class="fas fa-shield-alt"></i> Lab Safety</a></li>
+                    <li><a href="#book"><i class="fas fa-calendar-plus"></i> Private Tutoring</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3><i class="fas fa-info-circle"></i> Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#about"><i class="fas fa-user"></i> About Walter</a></li>
+                    <li><a href="#testimonials"><i class="fas fa-star"></i> Testimonials</a></li>
+                    <li><a href="#book"><i class="fas fa-phone"></i> Contact</a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3><i class="fas fa-map-marker-alt"></i> Contact Info</h3>
+                <p><i class="fas fa-envelope"></i> walter.white@chemistry.edu</p>
+                <p><i class="fas fa-phone"></i> (505) 842-4205</p>
+                <p><i class="fas fa-map-marker-alt"></i> Albuquerque, New Mexico</p>
+                <p><i class="fas fa-clock"></i> Mon-Fri: 9AM-8PM<br>Weekends: 10AM-6PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2024 Walter White Chemistry Tutoring. All rights reserved. |
+                <a href="#" style="color: var(--primary-green);">Privacy Policy</a> |
+                <a href="#" style="color: var(--primary-green);">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission with enhanced feedback
+        document.querySelector('.book-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            const name = formData.get('name');
+
+            // Show loading state
+            const submitBtn = this.querySelector('.book-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scheduling...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+
+                // Show success message
+                alert(`Thank you ${name}! We'll contact you within 24 hours to schedule your free consultation. Check your email for confirmation details.`);
+
+                // Reset form
+                this.reset();
+            }, 2000);
+        });
+
+        // Enhanced mobile menu (basic implementation)
+        function createMobileMenu() {
+            const navbar = document.querySelector('.navbar');
+            const navContainer = document.querySelector('.nav-container');
+
+            if (window.innerWidth <= 768) {
+                if (!document.querySelector('.mobile-menu-toggle')) {
+                    const mobileToggle = document.createElement('button');
+                    mobileToggle.classList.add('mobile-menu-toggle');
+                    mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    mobileToggle.style.cssText = `
+                        background: none;
+                        border: none;
+                        color: var(--text-dark);
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        display: block;
+                    `;
+                    navContainer.appendChild(mobileToggle);
+                }
+            }
+        }
+
+        // Initialize mobile menu on load and resize
+        window.addEventListener('load', createMobileMenu);
+        window.addEventListener('resize', createMobileMenu);
+
+        // Add scroll-triggered animations for stats
+        const statsObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    const finalNumber = parseInt(statNumber.textContent);
+                    const increment = finalNumber / 50;
+                    let current = 0;
+
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= finalNumber) {
+                            statNumber.textContent = finalNumber + (statNumber.textContent.includes('+') ? '+' : '') + (statNumber.textContent.includes('%') ? '%' : '');
+                            clearInterval(timer);
+                        } else {
+                            statNumber.textContent = Math.floor(current) + (statNumber.textContent.includes('+') ? '+' : '') + (statNumber.textContent.includes('%') ? '%' : '');
+                        }
+                    }, 50);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-item').forEach(item => {
+            statsObserver.observe(item);
+        });
+    </script>
+</body>
+
+</html>
